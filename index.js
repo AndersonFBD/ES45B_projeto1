@@ -22,8 +22,6 @@ const prepareUser = async () => {
     const userData = await fs.readFile(userjsonpath, "utf8");
     console.log("arquivo de usuario encontrado!");
   } catch (err) {
-    await fs.mkdir(path.dirname(userjsonpath), { recursive: true });
-
     await fs
       .writeFile(userjsonpath, JSON.stringify([defaultAdminUser], null, 2))
       .then(() => {
