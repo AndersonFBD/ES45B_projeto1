@@ -20,7 +20,7 @@ const prepareUser = async () => {
   try {
     await fs.access(userjsonpath);
     const userData = await fs.readFile(userjsonpath, "utf8");
-    console.log("arquivo de usuario encontrado!");
+    console.log("arquivo de usuario já existe!");
   } catch (err) {
     await fs
       .writeFile(userjsonpath, JSON.stringify([defaultAdminUser], null, 2))
@@ -30,7 +30,11 @@ const prepareUser = async () => {
   }
 };
 
-app.listen(port, async () => {
+app.get("/install", async (req, res) => {
   await prepareUser();
+  res.status(200).end("Admin instalado com sucesso!");
+});
+
+app.listen(port, () => {
   console.log("listening on port " + port);
 });
