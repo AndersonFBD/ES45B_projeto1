@@ -11,7 +11,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "nodemon": "^3.1.7"
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.7",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
   }
 }
