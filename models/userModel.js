@@ -1,9 +1,8 @@
 const fs = require("fs").promises;
-const path = require("path");
 const userList = fs.access(__dirname, "../data/users.json", "utf-8");
 
 let id = Number(userList.length);
-exports.finadAllUsers = () => userList;
+exports.findAllUsers = () => userList;
 
 exports.findUserById = (id) => userList.find((user) => user.uid === id);
 
