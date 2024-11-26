@@ -5,6 +5,7 @@ exports.listAllUsers = (req, res) => {
   res.status(200).json(userList);
 };
 
+// requer verificação das funções
 exports.findUser = (req, res) => {
   const user = userService.findUserById(Number(req.params.id));
 
