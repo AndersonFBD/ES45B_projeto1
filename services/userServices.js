@@ -27,13 +27,16 @@ exports.findUserById = async (id) => {
 
 exports.addUser = async (user) => {
   let userList = await getuserList();
-  let id = Number(userList.length) + 1;
-  const newUser = { id, ...user };
+  let uid = Number(userList.length) + 1;
+  console.log(user);
+  const newUser = { uid, ...user };
   userList.push(newUser);
 
   try {
-    await fs.writeFile(filepath, JSON.stringify(userList));
-    return newUser;
+    await fs.writeFile(filepath, JSON.stringify(userList), () => {
+      console.log("chegou aqui");
+    });
+    // return newUser;
   } catch (err) {
     console.error(err);
   }

@@ -7,6 +7,7 @@ const port = process.env.PORT || 3000;
 //rotas
 const userRoutes = require("./routes/userRoutes");
 
+app.use(express.json());
 app.use("/users", userRoutes);
 
 app.get("/install", initializeUsers, (req, res) => {
