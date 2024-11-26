@@ -9,8 +9,8 @@ const router = express.Router();
 // criar rota de login e logout uma vez que os tokens JWT estiverem implementados
 router.get("/all", userController.listAllUsers);
 router.get("/user/:id", userController.findUser);
-router.post("/user", validateUser, userController.createUser);
-router.put("/user/:id", validateUser, userController.editUser);
+// router.post("/user", validateUser, userController.createUser);
+// router.put("/user/:id", validateUser, userController.editUser);
 router.delete("/user", userController.deleteUser);
 
 module.exports = router;
