@@ -21,7 +21,7 @@ exports.findUser = async (req, res) => {
 exports.createUser = async (req, res) => {
   const user = await userService.addUser(req.body);
 
-  res.status(201).json(user);
+  res.status(201).json(req.body);
 };
 
 exports.editUser = async (req, res) => {

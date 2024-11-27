@@ -10,14 +10,14 @@ const validateUser = [
   body("username")
     .notEmpty()
     .withMessage("O nome de usuário é obrigatório")
-    .isLength({ min: 4, max: 12 })
+    .isLength({ min: 4, max: 20 })
     .withMessage("o nome deve ter entre 4 e 12 caracteres alfanuméricos"),
   body("password")
     .notEmpty()
     .withMessage("é obrigatório colocar uma senha")
     .isLength({ min: 6, max: 18 })
     .withMessage("a senha deve conter entre 6 e 18 caracteres"),
-  body("isAdmin").isBoolean().default(false),
+  body("isAdmin").isBoolean().optional().default(false),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -27,4 +27,4 @@ const validateUser = [
   },
 ];
 
-module.exports = validateUser;
+module.exports = { validateUser };

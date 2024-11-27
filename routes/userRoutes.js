@@ -8,9 +8,9 @@ const router = express.Router();
 // considerar tbm uma rota para criação de contas admins
 // criar rota de login e logout uma vez que os tokens JWT estiverem implementados
 router.get("/all", userController.listAllUsers);
-router.get("/user/:id", userController.findUser);
-router.post("/user", userController.createUser);
-router.put("/user/:id", userController.editUser);
-router.delete("/user", userController.deleteUser);
+router.get("/:id", userController.findUser);
+router.post("/", validateUser, userController.createUser);
+router.put("/:id", userController.editUser);
+router.delete("/", userController.deleteUser);
 
 module.exports = router;

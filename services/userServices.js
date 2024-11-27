@@ -27,15 +27,14 @@ exports.findUserById = async (id) => {
 
 exports.addUser = async (user) => {
   let userList = await getuserList();
+  if (!user.isAdmin) user.isAdmin = false;
   let uid = Number(userList.length) + 1;
   console.log(user);
   const newUser = { uid, ...user };
   userList.push(newUser);
 
   try {
-    await fs.writeFile(filepath, JSON.stringify(userList), () => {
-      console.log("chegou aqui");
-    });
+    await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
     // return newUser;
   } catch (err) {
     console.error(err);
@@ -58,7 +57,8 @@ exports.editUser = async (uid, editedUser) => {
   });
 };
 
-exports.removeUser = (uid) => {
+exports.removeUser = async (uid) => {
+  let userList = await getuserList();
   const user_index = userList.findIndex((user) => user.uid === uid);
   if (user_index === -1) {
     return null;
@@ -66,7 +66,7 @@ exports.removeUser = (uid) => {
 
   userList.splice(user_index, 1)[0];
 
-  fs.writeFile("../data/users.json", JSON.stringify(userList), (err) => {
+  await fs.writeFile("../data/users.json", JSON.stringify(userList), (err) => {
     if (err) {
       console.error(err);
     } else {
