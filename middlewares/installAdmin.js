@@ -9,20 +9,24 @@ exports.initializeUsers = async (req, res, next) => {
     isAdmin: true,
   };
 
+  //procura o diretório data, criando-o se o mesmo não existir
+  await fs.mkdir(path.join(__dirname, "../data"), { recursive: true });
+  console.log("diretório data inicializado");
   //local onde será aramazenado o json de usuários
   const userjsonpath = path.join(__dirname, "../data", "users.json");
 
-  //procura o arquivo de usuarios, se não encontrar, um json com um admin default é inicializado em data/users.json
+  // verifica a existencia do arquivo e o cria se o mesmo não existir
   try {
     await fs.access(userjsonpath);
-    const userData = await fs.readFile(userjsonpath, "utf8");
     console.log("arquivo de usuario já existe!");
-  } catch (err) {
-    await fs
-      .writeFile(userjsonpath, JSON.stringify([defaultAdminUser], null, 2))
-      .then(() => {
-        console.log("arquivo de usuario criado");
-      });
+  } catch (error) {
+    await fs.writeFile(
+      userjsonpath,
+      JSON.stringify([defaultAdminUser], null, 2)
+    );
+
+    console.log("arquivo de usuario criado");
   }
+
   next();
 };
