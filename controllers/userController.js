@@ -45,3 +45,14 @@ exports.deleteUser = async (req, res) => {
       .json({ erro: "o usuario especificado não pôde ser encontrado" });
   }
 };
+
+exports.login = async (req, res) => {
+  const login = await userService.login(req.body);
+  if (login.auth) {
+    res
+      .status(200)
+      .json({ status: `olá ${req.body.username}, bem-vindo de volta` });
+  } else {
+    res.status(401).json({ error: "credenciais inválidas" });
+  }
+};

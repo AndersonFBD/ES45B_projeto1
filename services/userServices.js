@@ -1,5 +1,6 @@
 const fs = require("fs").promises;
 const path = require("path");
+const jwt = require("jsonwebtoken");
 
 const filepath = path.join(__dirname, "../data", "users.json");
 
@@ -73,4 +74,21 @@ exports.removeUser = async (uid) => {
       return userList[user_index];
     }
   });
+};
+
+exports.login = async (req, res) => {
+  const userList = await getuserList();
+  const { username, password } = req.body;
+  try {
+    const payload = userList.find(
+      (user) => user.username === username && user.password == password
+    );
+    const token = await jwt.sign(payload, process.env.SECRET, {
+      expiresIn: process.env.TOKEN_EXPIRATION,
+    });
+    console.log("token: " + token);
+    return { auth: true, token: token };
+  } catch (error) {
+    return { auth: false, error: error };
+  }
 };
