@@ -1,6 +1,7 @@
 const fs = require("fs").promises;
 const path = require("path");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const filepath = path.join(__dirname, "../data", "users.json");
 
@@ -76,13 +77,15 @@ exports.removeUser = async (uid) => {
   });
 };
 
-exports.login = async (req, res) => {
+exports.login = async (loginBody) => {
   const userList = await getuserList();
-  const { username, password } = req.body;
+  const username = loginBody.username;
+  const password = loginBody.password;
   try {
     const payload = userList.find(
-      (user) => user.username === username && user.password == password
+      (user) => user.username === username && user.password === password
     );
+    console.log(payload);
     const token = await jwt.sign(payload, process.env.SECRET, {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
