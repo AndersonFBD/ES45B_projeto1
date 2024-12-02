@@ -45,3 +45,17 @@ exports.deleteUser = async (req, res) => {
       .json({ erro: "o usuario especificado não pôde ser encontrado" });
   }
 };
+
+exports.login = async (req, res) => {
+  const login = await userService.login({
+    username: req.body.username,
+    password: req.body.password,
+  });
+  if (login.auth) {
+    res.status(200).json({ status: "bem-vindo de volta" });
+  } else {
+    console.log(process.env.TOKEN_EXPIRATION);
+    console.error(login.error);
+    res.status(401).json({ error: "credenciais inválidas" });
+  }
+};
