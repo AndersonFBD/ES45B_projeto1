@@ -62,20 +62,20 @@ exports.editUser = async (uid, editedUser) => {
 
 exports.removeUser = async (uid) => {
   let userList = await getuserList();
-  const user_index = userList.findIndex((user) => user.uid === uid);
+  const user_index = userList.findIndex((user) => user.uid === Number(uid));
   if (user_index === -1) {
     return null;
   }
-
+  let removedUser = userList[user_index];
+  console.log(userList[user_index]);
   userList.splice(user_index, 1)[0];
 
-  await fs.writeFile("../data/users.json", JSON.stringify(userList), (err) => {
-    if (err) {
-      console.error(err);
-    } else {
-      return userList[user_index];
-    }
-  });
+  try {
+    await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
+    return removedUser;
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 exports.login = async (loginBody) => {

@@ -11,7 +11,7 @@ router.get("/all", userController.listAllUsers);
 router.get("/:id", userController.findUser);
 router.post("/", validateUser, userController.createUser);
 router.put("/:uid", validateUser, userController.editUser);
-router.delete("/:id", userController.deleteUser);
+router.delete("/:uid", userController.deleteUser);
 router.post("/login", userController.login);
 
 module.exports = router;

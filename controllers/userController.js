@@ -36,12 +36,14 @@ exports.editUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-  const deletedUser = await userService.removeUser(req.params.id);
+  const deletedUser = await userService.removeUser(req.params.uid);
 
   if (!deletedUser) {
     res
       .status(404)
       .json({ erro: "o usuario especificado não pôde ser encontrado" });
+  } else {
+    res.status(200).json({ "removed user": deletedUser });
   }
 };
 
