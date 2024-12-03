@@ -19,4 +19,9 @@ exports.getAllArtists = async (req, res) => {
   res.status(200).JSON(allArtists);
 };
 
-exports.getArtist = (id) => {};
+exports.getArtist = async (id) => {
+  let artists = await readArtistFile();
+  let result = artists.find((artist) => artist.id === id);
+  console.log(result);
+  return result;
+};
