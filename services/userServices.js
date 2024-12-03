@@ -45,18 +45,19 @@ exports.addUser = async (user) => {
 
 exports.editUser = async (uid, editedUser) => {
   let userList = await getuserList();
-  const user_index = userList.findIndex((user) => user.uid === uid);
+  const user_index = userList.findIndex((user) => user.uid === Number(uid));
   if (user_index === -1) {
     return null;
   }
   userList[user_index] = { ...userList[user_index], ...editedUser };
-  fs.writeFile("../data/users.json", JSON.stringify(userList), (err) => {
-    if (err) {
-      console.error(err);
-    } else {
-      return userList[user_index];
-    }
-  });
+  console.log(userList);
+
+  try {
+    await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
+    return userList[user_index];
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 exports.removeUser = async (uid) => {

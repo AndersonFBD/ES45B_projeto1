@@ -20,24 +20,23 @@ exports.findUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   const user = await userService.addUser(req.body);
-
+  console.log(req.body);
   res.status(201).json(req.body);
 };
 
 exports.editUser = async (req, res) => {
-  const user = await userService.editUser(Number(req.params.id), req.body);
-
+  const user = await userService.editUser(req.params.uid, req.body);
   if (!user) {
     res
       .status(404)
       .json({ erro: "o usuario especificado não pôde ser encontrado" });
+  } else {
+    res.status(200).json(user);
   }
-
-  res.status(200).json(user);
 };
 
 exports.deleteUser = async (req, res) => {
-  const deletedUser = await userService.removeUser(Number(req.params.id));
+  const deletedUser = await userService.removeUser(req.params.id);
 
   if (!deletedUser) {
     res
