@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const filepath = path.join(__dirname, "../data", "users.json");
+const sessionPath = path.join(__dirname, "../data", "currentSession.json");
 
 const getuserList = async () => {
   try {
@@ -86,13 +87,23 @@ exports.login = async (loginBody) => {
     const payload = userList.find(
       (user) => user.username === username && user.password === password
     );
-    console.log(payload);
     const token = await jwt.sign(payload, process.env.SECRET, {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
-    console.log("token: " + token);
+
+    await fs.writeFile(sessionPath, JSON.stringify({ Token: token }), "utf-8");
+
     return { auth: true, token: token };
   } catch (error) {
     return { auth: false, error: error };
+  }
+};
+
+exports.logout = async () => {
+  try {
+    await fs.unlink(sessionPath);
+    return { message: "deslogado com sucesso" };
+  } catch (error) {
+    return { message: error };
   }
 };

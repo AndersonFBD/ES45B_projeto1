@@ -60,3 +60,7 @@ exports.login = async (req, res) => {
     res.status(401).json({ error: "credenciais inválidas" });
   }
 };
+
+exports.logout = async (req, res) => {
+  await userService.logout();
+};
