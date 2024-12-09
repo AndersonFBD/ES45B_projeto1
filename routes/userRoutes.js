@@ -7,7 +7,7 @@ const router = express.Router();
 
 //TODO:as rotas de exclusão deveriam ser acessadas apenas pelos admins
 // considerar tbm uma rota para criação de contas admins
-// criar rota de login e logout uma vez que os tokens JWT estiverem implementados
+// criar rota de login e logout uma vez que os tokens JWT estiverem implementados [concluído]
 router.get("/all", verifyCredentials, userController.listAllUsers);
 router.get("/:id", verifyCredentials, userController.findUser);
 router.post("/", validateUser, userController.createUser);
