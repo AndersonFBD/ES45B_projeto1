@@ -1,6 +1,10 @@
 const userService = require("../services/userServices");
 
 exports.listAllUsers = async (req, res) => {
+  // console.log("olá " + req.user);
+  // req.admin
+  // ? console.log("você é um admin")
+  // : console.log("você é um usuário comum");
   const userList = await userService.findAllUsers();
   res.status(200).json(userList);
 };
