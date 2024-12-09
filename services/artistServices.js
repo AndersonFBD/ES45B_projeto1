@@ -25,7 +25,7 @@ const readArtistFile = async () => {
 exports.getAllArtists = async (req, res) => {
   await initialize();
   const allArtists = await readArtistFile();
-  res.status(200).JSON(allArtists);
+  return allArtists;
 };
 
 exports.getArtist = async (id) => {
@@ -42,7 +42,7 @@ exports.addNewArtist = async (artist) => {
   let id = Number(allArtists.length) + 1;
   console.log(artist);
   const newEntry = { id, ...artist };
-  artistCollection.push(newEntry);
+  allArtists.push(newEntry);
 
   try {
     await fs.writeFile(filepath, JSON.stringify(allArtists), "utf-8");

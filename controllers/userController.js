@@ -67,4 +67,5 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
   await userService.logout();
+  res.status(200).json({ message: "sessão encerrada" });
 };

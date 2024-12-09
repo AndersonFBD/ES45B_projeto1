@@ -6,7 +6,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.findOneArtist = async (req, res) => {
-  const artist = await artistServices.findOneArtist(Number(req.params.id));
+  const artist = await artistServices.getArtist(Number(req.params.id));
 
   if (!artist) {
     res
@@ -14,7 +14,7 @@ exports.findOneArtist = async (req, res) => {
       .json({ erro: "nenhum artista encontrado com a id especificada" });
   }
 
-  res.status(200).json(user);
+  res.status(200).json(artist);
 };
 
 exports.addArtist = async (req, res) => {

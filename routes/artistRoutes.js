@@ -5,7 +5,7 @@ const { validateArtist } = require("../validations/artistValidator");
 const router = express.Router();
 
 //apenas usuarios logados podem adicionar, editar ou remover artistas
-router.get("/all", artistController.getAll);
+router.get("/", artistController.getAll);
 router.get("/:id", artistController.findOneArtist);
 router.post("/", verifyCredentials, validateArtist, artistController.addArtist);
 router.put(
