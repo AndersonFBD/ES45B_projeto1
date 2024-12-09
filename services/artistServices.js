@@ -1,6 +1,5 @@
 const fs = require("fs").promises;
 const path = require("path");
-const jwt = require("jsonwebtoken");
 
 const filepath = path.join(__dirname, "../data", "artists.json");
 
