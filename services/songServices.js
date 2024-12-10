@@ -39,7 +39,7 @@ exports.getSongById = async (id) => {
 exports.addNewSong = async (song) => {
   await initialize();
   const songs = await readSongFile();
-  const lastSong = songs[songs.length];
+  const lastSong = songs[songs.length - 1];
   let id = Number(lastSong ? lastSong.id : 0) + 1;
   console.log(song);
   const newEntry = { id, ...song };

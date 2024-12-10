@@ -23,7 +23,7 @@ exports.addSong = async (req, res) => {
 
 exports.updateSong = async (req, res) => {
   const song = await songServices.editSong(req.params.id, req.body);
-  if (!artist) {
+  if (!song) {
     res.status(404).json({ erro: "nenhuma musica encontrada" });
   } else {
     res.status(200).json(song);
