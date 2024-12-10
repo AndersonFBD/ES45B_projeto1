@@ -55,21 +55,37 @@ exports.addNewSong = async (song) => {
 
 exports.editSong = async (id, editedSong) => {
   let songLibrary = await readSongFile();
-  const song_index = songLibrary.findIndex(
-    (artist) => artist.id === Number(id)
-  );
-  if (artist_index === -1) {
+  const song_index = songLibrary.findIndex((song) => song.id === Number(id));
+  if (song_index === -1) {
     return null;
   }
-  songLibrary[artist_index] = {
-    ...songLibrary[artist_index],
-    ...editedArtist,
+  songLibrary[song_index] = {
+    ...songLibrary[song_index],
+    ...editedSong,
   };
 
   try {
     await fs.writeFile(filepath, JSON.stringify(songLibrary), "utf-8");
-    return songLibrary[artist_index];
+    return songLibrary[song_index];
   } catch (err) {
     console.error(err);
+  }
+};
+
+exports.removeSong = async (id) => {
+  let songLibrary = await readSongFile();
+  const song_index = songLibrary.findIndex((song) => song.id === Number(id));
+  if (song_index === -1) {
+    return null;
+  }
+  let removedEntry = songLibrary[song_index];
+  songLibrary.splice(song_index, 1)[0];
+
+  try {
+    await fs.writeFile(filepath, JSON.stringify(songLibrary), "utf-8");
+    return removedEntry;
+  } catch (err) {
+    console.error(err);
+    return null;
   }
 };
