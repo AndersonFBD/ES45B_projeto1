@@ -7,10 +7,12 @@ const port = process.env.PORT || 3000;
 //rotas
 const userRoutes = require("./routes/userRoutes");
 const artistRoutes = require("./routes/artistRoutes");
+const songRoutes = require("./routes/songRoutes");
 
 app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/artists", artistRoutes);
+app.use("/songs", songRoutes);
 
 app.get("/install", initializeUsers, (req, res) => {
   res.status(200).end("Admin instalado com sucesso!");
