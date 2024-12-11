@@ -14,12 +14,15 @@ const router = express.Router();
 router.get("/all", verifyCredentials, userController.listAllUsers);
 router.get("/:id", verifyCredentials, userController.findUser);
 router.post("/", validateUser, userController.createUser);
+// rota para admins alterarem outros perfis
 router.put(
   "/:uid",
   verifyCredentials,
   validateUserUpdate,
   userController.editUser
 );
+//rota para usuários alterarem informações de seus perfis
+router.put("/editMyProfile", validateUserUpdate, userController.editMyProfile);
 router.delete("/:uid", verifyCredentials, userController.deleteUser);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);

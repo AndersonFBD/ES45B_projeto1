@@ -1,10 +1,6 @@
 const userService = require("../services/userServices");
 
 exports.listAllUsers = async (req, res) => {
-  // console.log("olá " + req.user);
-  // req.admin
-  // ? console.log("você é um admin")
-  // : console.log("você é um usuário comum");
   const userList = await userService.findAllUsers();
   return res.status(200).json(userList);
 };
@@ -27,15 +23,29 @@ exports.createUser = async (req, res) => {
   return res.status(201).json(req.body);
 };
 
+// apenas admins podem editar outros usuários indiscriminadamente, com excessão do primeiro usuario
 exports.editUser = async (req, res) => {
-  const user = await userService.editUser(req.params.uid, req.body);
-  if (!user) {
-    res
-      .status(404)
-      .json({ erro: "o usuario especificado não pôde ser encontrado" });
+  if (req.admin === true) {
+    if (req.params.uid == 1)
+      return res.status(405).json("este usuário não pode ser editado");
+
+    const user = await userService.editUser(req.params.uid, req.body);
+    if (!user) {
+      res
+        .status(404)
+        .json({ erro: "o usuario especificado não pôde ser encontrado" });
+    } else {
+      return res.status(200).json(user);
+    }
   } else {
-    return res.status(200).json(user);
+    return res.status(403).json("sem privilégios o suficiente");
   }
+};
+
+exports.editMyProfile = async (req, res) => {
+  if (req.body.isAdmin) req.body.isAdmin = false; //medida de segurança para evitar que usuarios comuns se tornem admins
+  await userService.editUser(req.uid, req.body);
+  return res.status(200).json("alterações salvas");
 };
 
 //apenas admins podem deletar usuários
