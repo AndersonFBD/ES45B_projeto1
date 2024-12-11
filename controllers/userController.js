@@ -6,7 +6,7 @@ exports.listAllUsers = async (req, res) => {
   // ? console.log("você é um admin")
   // : console.log("você é um usuário comum");
   const userList = await userService.findAllUsers();
-  res.status(200).json(userList);
+  return res.status(200).json(userList);
 };
 
 // requer verificação das funções
@@ -14,18 +14,18 @@ exports.findUser = async (req, res) => {
   const user = await userService.findUserById(Number(req.params.id));
 
   if (!user) {
-    res
+    return res
       .status(404)
       .json({ erro: "o usuario especificado não pôde ser encontrado" });
   }
 
-  res.status(200).json(user);
+  return res.status(200).json(user);
 };
 
 exports.createUser = async (req, res) => {
-  const user = await userService.addUser(req.body);
+  await userService.addUser(req.body);
   console.log(req.body);
-  res.status(201).json(req.body);
+  return res.status(201).json(req.body);
 };
 
 exports.editUser = async (req, res) => {
@@ -35,19 +35,27 @@ exports.editUser = async (req, res) => {
       .status(404)
       .json({ erro: "o usuario especificado não pôde ser encontrado" });
   } else {
-    res.status(200).json(user);
+    return res.status(200).json(user);
   }
 };
 
+//apenas admins podem deletar usuários
 exports.deleteUser = async (req, res) => {
-  const deletedUser = await userService.removeUser(req.params.uid);
-
-  if (!deletedUser) {
-    res
-      .status(404)
-      .json({ erro: "o usuario especificado não pôde ser encontrado" });
+  if (req.admin === false) {
+    return res.status(403).json("você não tem permissões de acesso");
+  }
+  if (req.params.uid == 1) {
+    return res.status(405).json("comando não permitido para este usuario");
   } else {
-    res.status(200).json({ "removed user": deletedUser });
+    const deletedUser = await userService.removeUser(req.params.uid);
+
+    if (!deletedUser) {
+      res
+        .status(404)
+        .json({ erro: "o usuario especificado não pôde ser encontrado" });
+    } else {
+      return res.status(200).json({ "removed user": deletedUser });
+    }
   }
 };
 
@@ -57,15 +65,15 @@ exports.login = async (req, res) => {
     password: req.body.password,
   });
   if (login.auth) {
-    res.status(200).json({ status: "bem-vindo de volta" });
+    return res.status(200).json({ status: "bem-vindo de volta" });
   } else {
     console.log(process.env.TOKEN_EXPIRATION);
     console.error(login.error);
-    res.status(401).json({ error: "credenciais inválidas" });
+    return res.status(401).json({ error: "credenciais inválidas" });
   }
 };
 
 exports.logout = async (req, res) => {
   await userService.logout();
-  res.status(200).json({ message: "sessão encerrada" });
+  return res.status(200).json({ message: "sessão encerrada" });
 };
