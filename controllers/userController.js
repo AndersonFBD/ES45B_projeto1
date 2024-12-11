@@ -24,7 +24,6 @@ exports.findUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   await userService.addUser(req.body);
-  console.log(req.body);
   return res.status(201).json(req.body);
 };
 
@@ -76,4 +75,13 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
   await userService.logout();
   return res.status(200).json({ message: "sessão encerrada" });
+};
+
+exports.addNewAdmin = async (req, res) => {
+  if (req.admin === false) {
+    return res.status(403).json("acesso negado");
+  } else {
+    await userService.createAdmin(req.body);
+    return res.status(201).json("nova credencial admin criada com êxito");
+  }
 };

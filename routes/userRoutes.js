@@ -24,4 +24,12 @@ router.delete("/:uid", verifyCredentials, userController.deleteUser);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 
+// rota especifica para novo admin
+router.post(
+  "/newAdmin",
+  verifyCredentials,
+  validateUser,
+  userController.addNewAdmin
+);
+
 module.exports = router;

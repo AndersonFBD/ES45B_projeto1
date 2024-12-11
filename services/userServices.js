@@ -115,7 +115,7 @@ exports.logout = async () => {
 };
 
 //função onde um admin pode criar uma nova conta de admin
-exports.createAdmin = async () => {
+exports.createAdmin = async (user) => {
   let userList = await getuserList();
   user.isAdmin = true;
   const lastUser = userList[userList.length - 1];
