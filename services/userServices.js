@@ -30,8 +30,9 @@ exports.findUserById = async (id) => {
 
 exports.addUser = async (user) => {
   let userList = await getuserList();
-  if (!user.isAdmin) user.isAdmin = false;
-  let uid = Number(userList.length) + 1;
+  user.isAdmin = false;
+  const lastUser = userList[userList.length - 1];
+  let uid = Number(lastUser ? lastUser.uid : 0) + 1;
   console.log(user);
   const newUser = { uid, ...user };
   userList.push(newUser);
@@ -62,6 +63,7 @@ exports.editUser = async (uid, editedUser) => {
 };
 
 exports.removeUser = async (uid) => {
+  if (uid == 1) return { message: "usuario protegido" };
   let userList = await getuserList();
   const user_index = userList.findIndex((user) => user.uid === Number(uid));
   if (user_index === -1) {
@@ -79,6 +81,8 @@ exports.removeUser = async (uid) => {
   }
 };
 
+//função que gera o token a partir das credenciais fornecidas pelo usuario
+//se elas existirem, um token será gerado
 exports.login = async (loginBody) => {
   const userList = await getuserList();
   const username = loginBody.username;
@@ -99,11 +103,31 @@ exports.login = async (loginBody) => {
   }
 };
 
+//destrói o arquivo que contém o token, invalidando o acesso à qualquer página
+// que requeira o token para poder acessar
 exports.logout = async () => {
   try {
     await fs.unlink(sessionPath);
     return { message: "deslogado com sucesso" };
   } catch (error) {
     return { message: error };
+  }
+};
+
+//função onde um admin pode criar uma nova conta de admin
+exports.createAdmin = async () => {
+  let userList = await getuserList();
+  user.isAdmin = true;
+  const lastUser = userList[userList.length - 1];
+  let uid = Number(lastUser ? lastUser.uid : 0) + 1;
+  console.log(user);
+  const newUser = { uid, ...user };
+  userList.push(newUser);
+
+  try {
+    await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
+    // return newUser;
+  } catch (err) {
+    console.error(err);
   }
 };
