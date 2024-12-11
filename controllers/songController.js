@@ -19,9 +19,14 @@ exports.findById = async (req, res) => {
 };
 
 exports.addSong = async (req, res) => {
-  await songServices.addNewSong(req.body);
-  console.log(req.body);
-  res.status(201).json({ "música adicionada": req.body });
+  let addedSong = await songServices.addNewSong(req.body);
+  if (addedSong) {
+    return res.status(201).json({ "música adicionada": addedSong });
+  } else {
+    return res
+      .status(400)
+      .json({ erro: "Artista não cadastrado em nossa base" });
+  }
 };
 
 exports.updateSong = async (req, res) => {

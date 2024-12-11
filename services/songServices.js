@@ -3,6 +3,8 @@ const path = require("path");
 
 const filepath = path.join(__dirname, "../data", "songs.json");
 
+const Artistfilepath = path.join(__dirname, "../data", "artists.json");
+
 const initialize = async () => {
   let initializedArray = [];
   try {
@@ -15,6 +17,16 @@ const initialize = async () => {
 const readSongFile = async () => {
   try {
     const data = await fs.readFile(filepath, "utf-8");
+    return JSON.parse(data);
+  } catch (err) {
+    console.error("Erro na leitura na base de dados:", err);
+    throw err;
+  }
+};
+
+const getArtistList = async () => {
+  try {
+    const data = await fs.readFile(Artistfilepath, "utf-8");
     return JSON.parse(data);
   } catch (err) {
     console.error("Erro na leitura na base de dados:", err);
@@ -40,17 +52,24 @@ exports.getSongById = async (id) => {
 exports.addNewSong = async (song) => {
   await initialize();
   const songs = await readSongFile();
-  const lastSong = songs[songs.length - 1];
-  let id = Number(lastSong ? lastSong.id : 0) + 1;
-  console.log(song);
-  const newEntry = { id, ...song };
-  songs.push(newEntry);
+  const artistList = await getArtistList();
+  let searchArtist = artistList.find((artist) => artist.name == song.artist);
 
-  try {
-    await fs.writeFile(filepath, JSON.stringify(songs), "utf-8");
-    return newEntry;
-  } catch (err) {
-    console.error(err);
+  if (searchArtist) {
+    const lastSong = songs[songs.length - 1];
+    let id = Number(lastSong ? lastSong.id : 0) + 1;
+    const newEntry = { id, ...song };
+    songs.push(newEntry);
+    let result = newEntry;
+
+    try {
+      await fs.writeFile(filepath, JSON.stringify(songs), "utf-8");
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    return null;
   }
 };
 
