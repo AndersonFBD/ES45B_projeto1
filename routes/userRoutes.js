@@ -12,7 +12,8 @@ const router = express.Router();
 // considerar tbm uma rota para criação de contas admins
 // criar rota de login e logout uma vez que os tokens JWT estiverem implementados [concluído]
 router.get("/all", verifyCredentials, userController.listAllUsers);
-router.get("/:id", verifyCredentials, userController.findUser);
+router.get("/find/:id", verifyCredentials, userController.findUser);
+router.get("/myProfile", verifyCredentials, userController.viewMyProfile);
 router.post("/", validateUser, userController.createUser);
 // rota para admins alterarem outros perfis
 router.put(

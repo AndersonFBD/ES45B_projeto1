@@ -24,7 +24,6 @@ exports.findAllUsers = async () => {
 exports.findUserById = async (id) => {
   let userList = await getuserList();
   let identifiedUser = userList.find((user) => user.uid === id);
-  console.log(identifiedUser);
   return identifiedUser;
 };
 
@@ -33,7 +32,6 @@ exports.addUser = async (user) => {
   user.isAdmin = false;
   const lastUser = userList[userList.length - 1];
   let uid = Number(lastUser ? lastUser.uid : 0) + 1;
-  console.log(user);
   const newUser = { uid, ...user };
   userList.push(newUser);
 
@@ -52,7 +50,6 @@ exports.editUser = async (uid, editedUser) => {
     return null;
   }
   userList[user_index] = { ...userList[user_index], ...editedUser };
-  console.log(userList);
 
   try {
     await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
@@ -70,7 +67,6 @@ exports.removeUser = async (uid) => {
     return null;
   }
   let removedUser = userList[user_index];
-  console.log(userList[user_index]);
   userList.splice(user_index, 1)[0];
 
   try {
@@ -120,7 +116,6 @@ exports.createAdmin = async (user) => {
   user.isAdmin = true;
   const lastUser = userList[userList.length - 1];
   let uid = Number(lastUser ? lastUser.uid : 0) + 1;
-  console.log(user);
   const newUser = { uid, ...user };
   userList.push(newUser);
 

@@ -1,13 +1,32 @@
 const userService = require("../services/userServices");
 
 exports.listAllUsers = async (req, res) => {
-  const userList = await userService.findAllUsers();
-  return res.status(200).json(userList);
+  console.log(req.admin);
+  if (req.admin == false)
+    return res.status(403).json("sem privilégios para essa rota");
+  else {
+    const userList = await userService.findAllUsers();
+    return res.status(200).json(userList);
+  }
 };
 
-// requer verificação das funções
 exports.findUser = async (req, res) => {
+  if (req.admin === false)
+    return res.status(403).json("sem privilégios para essa rota");
+
   const user = await userService.findUserById(Number(req.params.id));
+
+  if (!user) {
+    return res
+      .status(404)
+      .json({ erro: "o usuario especificado não pôde ser encontrado" });
+  }
+
+  return res.status(200).json(user);
+};
+
+exports.viewMyProfile = async (req, res) => {
+  const user = await userService.findUserById(Number(req.uid));
 
   if (!user) {
     return res
@@ -23,7 +42,8 @@ exports.createUser = async (req, res) => {
   return res.status(201).json(req.body);
 };
 
-// apenas admins podem editar outros usuários indiscriminadamente, com excessão do primeiro usuario
+// apenas admins podem editar outros usuários
+// o primeiro usuario não pode ser alterado
 exports.editUser = async (req, res) => {
   if (req.admin === true) {
     if (req.params.uid == 1)
