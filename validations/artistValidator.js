@@ -28,4 +28,22 @@ const validateArtist = [
   },
 ];
 
-module.exports = { validateArtist };
+const validateArtistUpdate = [
+  body("name")
+    .optional()
+    .isLength({ min: 2, max: 50 })
+    .withMessage("o nome deve ser entre 2 e 50 caracteres"),
+  body("genre")
+    .optional()
+    .isLength({ min: 3, max: 30 })
+    .withMessage("o genero deve conter entre 3 e 30 caracteres"),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];
+
+module.exports = { validateArtist, validateArtistUpdate };

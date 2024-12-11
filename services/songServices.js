@@ -22,10 +22,11 @@ const readSongFile = async () => {
   }
 };
 
-exports.listAllSongs = async (req, res) => {
+exports.listAllSongs = async (page, limit) => {
   await initialize();
   const allSongs = await readSongFile();
-  return allSongs;
+  let resultPage = allSongs.slice((page - 1) * limit, limit * page);
+  return resultPage;
 };
 
 exports.getSongById = async (id) => {
