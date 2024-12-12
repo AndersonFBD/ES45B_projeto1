@@ -21,6 +21,14 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.get("/install", initializeUsers, (req, res) => {
   return res.status(200).json("Admin instalado com sucesso!");
+  /**
+    #swagger.summary = 'realiza a instalação inicial necessária para a aplicação'
+    #swagger.description = 'A rota retorna cria um usuário administrativo padrão para acessar outras rotas'
+    #swagger.responses[200] = {
+      description: 'admin instalado com sucesso.',
+    }
+    
+  */
 });
 
 app.listen(port, () => {

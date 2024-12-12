@@ -31,10 +31,11 @@
   "paths": {
     "/install": {
       "get": {
-        "description": "",
+        "summary": "realiza a instalação inicial necessária para a aplicação",
+        "description": "A rota retorna cria um usuário administrativo padrão para acessar outras rotas",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "admin instalado com sucesso."
           }
         }
       }
