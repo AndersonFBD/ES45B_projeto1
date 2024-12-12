@@ -16,9 +16,10 @@ const getuserList = async () => {
   }
 };
 
-exports.findAllUsers = async () => {
-  let userList = await getuserList();
-  return userList;
+exports.findAllUsers = async (page, limit) => {
+  const userList = await getuserList();
+  let results = userList.slice((page - 1) * limit, limit * page);
+  return results;
 };
 
 exports.findUserById = async (id) => {

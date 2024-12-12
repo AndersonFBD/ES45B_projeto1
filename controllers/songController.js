@@ -3,9 +3,10 @@ const songServices = require("../services/songServices");
 exports.getAllSongs = async (req, res) => {
   let page = Number(req.query.page[0]);
   let limit = Number(req.query.limit[0]);
-  console.log(limit);
+  if (limit !== 5 && limit !== 10 && limit !== 30)
+    return res.status(400).json({ error: "o limite deve ser 5, 10 ou 30" });
   const library = await songServices.listAllSongs(page, limit);
-  res.status(200).json(library);
+  return res.status(200).json(library);
 };
 
 exports.findById = async (req, res) => {

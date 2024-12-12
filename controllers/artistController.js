@@ -1,7 +1,11 @@
 const artistServices = require("../services/artistServices");
 
 exports.getAll = async (req, res) => {
-  const AllArtists = await artistServices.getAllArtists();
+  let page = Number(req.query.page[0]);
+  let limit = Number(req.query.limit[0]);
+  if (limit !== 5 && limit !== 10 && limit !== 30)
+    return res.status(400).json({ error: "o limite deve ser 5, 10 ou 30" });
+  const AllArtists = await artistServices.getAllArtists(page, limit);
   res.status(200).json(AllArtists);
 };
 

@@ -22,10 +22,11 @@ const readArtistFile = async () => {
   }
 };
 
-exports.getAllArtists = async (req, res) => {
+exports.getAllArtists = async (page, limit) => {
   await initialize();
   const allArtists = await readArtistFile();
-  return allArtists;
+  let resultPage = allArtists.slice((page - 1) * limit, limit * page);
+  return resultPage;
 };
 
 exports.getArtist = async (id) => {
