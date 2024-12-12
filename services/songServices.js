@@ -51,14 +51,19 @@ exports.getSongById = async (id) => {
 
 exports.findByTitle = async (title) => {
   await initialize();
-  let allSongs = await readSongFile();
-  let results = allSongs.filter((song) =>
-    String(song.title).toLowerCase().includes(String(title).toLowerCase())
-  );
 
-  if (results.length > 0) return results;
-  else {
-    return "no results";
+  if (String(title).trim() === "") {
+    return "nenhum termo buscado";
+  } else {
+    let allSongs = await readSongFile();
+    let results = allSongs.filter((song) =>
+      String(song.title).toLowerCase().includes(String(title).toLowerCase())
+    );
+
+    if (results.length > 0) return results;
+    else {
+      return "no results";
+    }
   }
 };
 
