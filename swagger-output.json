@@ -12,6 +12,10 @@
   ],
   "tags": [
     {
+      "name": "install",
+      "description": "rota para instalação inicial do app"
+    },
+    {
       "name": "login/logout",
       "description": "rotas usadas para a criar e encerrar as sessões do usuário"
     },
@@ -31,6 +35,9 @@
   "paths": {
     "/install": {
       "get": {
+        "tags": [
+          "install"
+        ],
         "summary": "realiza a instalação inicial necessária para a aplicação",
         "description": "A rota retorna cria um usuário administrativo padrão para acessar outras rotas",
         "responses": {
@@ -42,42 +49,108 @@
     },
     "/users/all": {
       "get": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "realiza a listagem de todos os usuários em páginas",
+        "description": "A rota retorna todos os usuários conforme \r  definido página e limite nos parametros, apenas administradores\r  podem acessar esta rota",
         "parameters": [
           {
             "name": "page",
             "in": "query",
+            "description": "numero da pagina",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           },
           {
             "name": "limit",
             "in": "query",
+            "description": "limite de itens por pagina",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "exibe os usuarios da página especificada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "limite invalido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "limite invalido, precisa ser 5 , 10 ou 30"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "sessão expirada ou inexistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "sem permissão, efetue login para acessar"
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "sem privilégios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "sem privilégios para essa rota"
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/users/find/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "realiza a busca de usuários pela id",
+        "description": "A rota retorna o usuário com a id\r  fornecida na URL. Essa rota só pode ser acessada por administradores",
         "parameters": [
           {
             "name": "id",
@@ -85,57 +158,206 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "id do usuário"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "usuário encontrado:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "sessão expirada ou inexistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "sem permissão, efetue login para acessar"
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "sem privilégios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "sem privilégios para essa rota"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "nenhum usuário encontrado com a id especificada"
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/users/myProfile": {
       "get": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "exibe as informações do usuário logado",
+        "description": "permite visualizar as informações de perfil se o usuário estiver logado",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "usuário encontrado:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "sessão expirada ou inexistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "sem permissão, efetue login para acessar"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "nenhum usuário encontrado com a id especificada"
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/users/": {
       "post": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "cadastro de usuários",
+        "description": "rota usada para criar contas novas de usuários",
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "usuario cadastrado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "erro no formato da requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "houve um erro com os dados enviados"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "examples": {
+                "new user": {
+                  "value": {
+                    "username": "testedecadastro",
+                    "password": "testando123"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/users/edit/{uid}": {
       "put": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "atualização de usuários",
+        "description": "rota usada para atualizar um usuário",
         "parameters": [
           {
             "name": "uid",
@@ -148,48 +370,212 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "usuario atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "erro no formato da requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "houve um erro com os dados enviados"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "sessão expirada ou inexistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "sem permissão, efetue login para acessar"
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "sem privilégios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "sem privilégios para essa rota"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "nenhum usuário encontrado com a id especificada"
+                    }
+                  }
+                }
+              }
+            }
           },
           "405": {
-            "description": "Method Not Allowed"
+            "description": "alteração de usuario root negada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "este usuário não pode ser alterado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "examples": {
+                "usuario": {
+                  "value": {
+                    "username": "updateduser",
+                    "password": "testupdate123"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/users/editProfile/": {
       "put": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "atualização de usuários",
+        "description": "rota usada para um usuário atualizar seus dados",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "usuario atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "erro no formato da requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "houve um erro com os dados enviados"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "sessão expirada ou inexistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "sem permissão, efetue login para acessar"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "alteração de usuario root negada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "este usuário não pode ser alterado"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "isAdmin": {
-                    "example": "any"
+                "$ref": "#/components/schemas/user"
+              },
+              "examples": {
+                "usuario": {
+                  "value": {
+                    "username": "updateduser",
+                    "password": "testupdate123",
+                    "isAdmin": false
                   }
                 }
               }
@@ -200,7 +586,11 @@
     },
     "/users/{uid}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "deletar um usuário",
+        "description": "rota usada para deletar a conta de um usuário",
         "parameters": [
           {
             "name": "uid",
@@ -213,26 +603,97 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "usuario removido com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "sessão expirada ou inexistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "sem permissão, efetue login para acessar"
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "sem privilégios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "sem privilégios para essa rota"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "nenhum usuário encontrado com a id especificada"
+                    }
+                  }
+                }
+              }
+            }
           },
           "405": {
-            "description": "Method Not Allowed"
+            "description": "remoção de usuario root negada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "este usuário não pode ser apagado"
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/users/login": {
       "post": {
-        "description": "",
+        "tags": [
+          "login/logout"
+        ],
+        "summary": "login de usuários",
+        "description": "A rota realiza a autênticação de usuários cadastrados",
         "responses": {
           "200": {
             "description": "OK"
@@ -262,7 +723,11 @@
     },
     "/users/logout": {
       "post": {
-        "description": "",
+        "tags": [
+          "login/logout"
+        ],
+        "summary": "logout de usuários",
+        "description": "A rota realiza o encerramento da sessão de usuários cadastrados",
         "responses": {
           "200": {
             "description": "OK"
@@ -272,19 +737,95 @@
     },
     "/users/newAdmin": {
       "post": {
-        "description": "",
+        "tags": [
+          "usuários"
+        ],
+        "summary": "cadastro de admins",
+        "description": "rota usada para criar contas administrativas",
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "admin cadastrado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/user"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "erro no formato da requisição",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "houve um erro com os dados enviados"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "sessão expirada ou inexistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "sem permissão, efetue login para acessar"
+                    }
+                  }
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "sem privilégios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "sem privilégios para essa rota"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              },
+              "examples": {
+                "new user": {
+                  "value": {
+                    "username": "admintest",
+                    "password": "admintest123"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -789,6 +1330,19 @@
       "user": {
         "type": "object",
         "properties": {
+          "uid": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "integer"
+              },
+              "description": {
+                "type": "string",
+                "example": "numero de identificação de usuario"
+              }
+            }
+          },
           "username": {
             "type": "object",
             "properties": {

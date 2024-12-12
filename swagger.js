@@ -14,6 +14,10 @@ const doc = {
   produces: ["application/json"],
   tags: [
     {
+      name: "install",
+      description: "rota para instalação inicial do app",
+    },
+    {
       name: "login/logout",
       description: "rotas usadas para a criar e encerrar as sessões do usuário",
     },
@@ -34,6 +38,10 @@ const doc = {
     schemas: {
       // schema de usuario
       user: {
+        uid: {
+          type: "integer",
+          description: "numero de identificação de usuario",
+        },
         username: {
           type: "string",
           description: "nome de usuário",
