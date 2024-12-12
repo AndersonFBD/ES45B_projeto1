@@ -1245,7 +1245,7 @@
           "musicas"
         ],
         "summary": "adição de musicas",
-        "description": "rota usada para adicionar musicas,\r  para a música ser válida, o musica na qual a música pertence precisa já estar cadastrado",
+        "description": "rota usada para adicionar musicas,\r  para a música ser válida, o artista na qual a música pertence precisa já estar cadastrado",
         "responses": {
           "201": {
             "description": "música adicionada com sucesso.",
@@ -1269,7 +1269,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "o musica dessa canção não é cadastrado"
+                      "example": "o artista dessa canção não é cadastrado"
                     }
                   }
                 }

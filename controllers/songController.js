@@ -154,7 +154,7 @@ exports.addSong = async (req, res) => {
   #swagger.summary = 'adição de musicas'
   #swagger.security = [{ "bearerAuth": [] }]
   #swagger.description = 'rota usada para adicionar musicas,
-  para a música ser válida, o musica na qual a música pertence precisa já estar cadastrado'
+  para a música ser válida, o artista na qual a música pertence precisa já estar cadastrado'
   #swagger.requestBody = {
     required: true,
     content: {
@@ -194,7 +194,7 @@ exports.addSong = async (req, res) => {
         schema: {
           type: 'object',
           properties: {
-            message: { type: 'string', example: 'o musica dessa canção não é cadastrado'}
+            message: { type: 'string', example: 'o artista dessa canção não é cadastrado'}
           }
         }
       }
