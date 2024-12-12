@@ -17,6 +17,10 @@ exports.findById = async (req, res) => {
 
   res.status(200).json(song);
 };
+exports.findByTitle = async (req, res) => {
+  const results = await songServices.findByTitle(req.body.title);
+  res.status(200).json(results);
+};
 
 exports.addSong = async (req, res) => {
   let addedSong = await songServices.addNewSong(req.body);

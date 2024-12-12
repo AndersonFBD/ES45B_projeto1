@@ -49,6 +49,19 @@ exports.getSongById = async (id) => {
   return result;
 };
 
+exports.findByTitle = async (title) => {
+  await initialize();
+  let allSongs = await readSongFile();
+  let results = allSongs.filter((song) =>
+    String(song.title).toLowerCase().includes(String(title).toLowerCase())
+  );
+
+  if (results.length > 0) return results;
+  else {
+    return "no results";
+  }
+};
+
 exports.addNewSong = async (song) => {
   await initialize();
   const songs = await readSongFile();

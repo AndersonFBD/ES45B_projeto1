@@ -8,7 +8,8 @@ const {
 const router = express.Router();
 
 router.get("/", songController.getAllSongs);
-router.get("/:id", songController.findById);
+router.get("/idSearch/:id", songController.findById);
+router.post("/titleSearch", songController.findByTitle);
 router.post("/", verifyCredentials, validateSong, songController.addSong);
 router.put(
   "/:id",
