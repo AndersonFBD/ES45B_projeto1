@@ -156,7 +156,7 @@ exports.addArtist = async (req, res) => {
     }
   }
     #swagger.responses[401] = {
-    description: 'Sem permisão',
+    description: 'Sem permissão',
     content: {
       "application/json":{
         schema: {
@@ -220,7 +220,7 @@ exports.updateArtist = async (req, res) => {
     }
   }
     #swagger.responses[401] = {
-    description: 'Sem permisão',
+    description: 'Sem permissão',
     content: {
       "application/json":{
         schema: {
@@ -292,7 +292,7 @@ exports.deleteArtist = async (req, res) => {
     }
   }
     #swagger.responses[401] = {
-    description: 'Sem permisão',
+    description: 'Sem permissão',
     content: {
       "application/json":{
         schema: {

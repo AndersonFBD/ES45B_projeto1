@@ -926,7 +926,7 @@
             }
           },
           "401": {
-            "description": "Sem permisão",
+            "description": "Sem permissão",
             "content": {
               "application/json": {
                 "schema": {
@@ -1055,7 +1055,7 @@
             }
           },
           "401": {
-            "description": "Sem permisão",
+            "description": "Sem permissão",
             "content": {
               "application/json": {
                 "schema": {
@@ -1142,7 +1142,7 @@
             }
           },
           "401": {
-            "description": "Sem permisão",
+            "description": "Sem permissão",
             "content": {
               "application/json": {
                 "schema": {
@@ -1183,50 +1183,150 @@
     },
     "/songs/": {
       "get": {
-        "description": "",
+        "tags": [
+          "musicas"
+        ],
+        "summary": "realiza a listagem das musicas",
+        "description": "A rota retorna todas as musicas conforme definido página e limite nos parametros",
         "parameters": [
           {
             "name": "page",
             "in": "query",
+            "description": "numero da pagina",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           },
           {
             "name": "limit",
             "in": "query",
+            "description": "limite de itens por pagina",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "musicas dessa página:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "limite invalido, precisa ser 5 , 10 ou 30",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "limite invalido, precisa ser 5 , 10 ou 30"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "musicas"
+        ],
+        "summary": "adição de musicas",
+        "description": "rota usada para adicionar musicas,\r  para a música ser válida, o musica na qual a música pertence precisa já estar cadastrado",
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "música adicionada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "musica não adicionada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "o musica dessa canção não é cadastrado"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Sem permissão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "faça o login para realizar esta ação"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/song"
+              },
+              "examples": {
+                "song": {
+                  "value": {
+                    "title": "any",
+                    "album": "any",
+                    "artist": "any",
+                    "year": 2000
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/songs/idSearch/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "musicas"
+        ],
+        "summary": "realiza a busca da musica pela id",
+        "description": "A rota retorna a musica conforme definido a id na URL",
         "parameters": [
           {
             "name": "id",
@@ -1234,35 +1334,76 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "id da musica"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "musica encontrada:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "musica não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "nenhuma musica encontrada com a id especificada"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
     "/songs/titleSearch": {
       "post": {
-        "description": "",
+        "tags": [
+          "musicas"
+        ],
+        "summary": "realiza a busca da musica por algum termo do titulo",
+        "description": "A rota retorna as musicas conforme a palavra indicada conter no titulo",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "musicas encontradas:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "example": "any"
+                "$ref": "#/components/schemas/song"
+              },
+              "examples": {
+                "title": {
+                  "value": {
+                    "title": "any"
                   }
                 }
               }
@@ -1273,7 +1414,11 @@
     },
     "/songs/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "musicas"
+        ],
+        "summary": "edição de musicas",
+        "description": "rota usada para atualizar musicas cadastradas",
         "parameters": [
           {
             "name": "id",
@@ -1281,26 +1426,105 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "id da musica"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "musica atualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "musica não adicionada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "houve um erro com os dados enviados"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Sem permisão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "faça o login para realizar esta ação"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "musica não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string",
+                      "example": "musica não encontrada"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/song"
+              },
+              "examples": {
+                "song": {
+                  "value": {
+                    "title": "any",
+                    "album": "any",
+                    "artist": "any",
+                    "year": 2000
+                  }
+                }
+              }
+            }
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "musicas"
+        ],
+        "summary": "apagar um musica",
+        "description": "rota usada para deletar musicas na base de dados",
         "parameters": [
           {
             "name": "id",
@@ -1313,15 +1537,56 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "musica apagada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Sem permissão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "faça o login para realizar esta ação"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "musica não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "nenhuma musica encontrada"
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
