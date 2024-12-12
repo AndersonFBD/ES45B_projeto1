@@ -16,23 +16,23 @@ const getuserList = async () => {
   }
 };
 
-exports.findAllUsers = async () => {
-  let userList = await getuserList();
-  return userList;
+exports.findAllUsers = async (page, limit) => {
+  const userList = await getuserList();
+  let results = userList.slice((page - 1) * limit, limit * page);
+  return results;
 };
 
 exports.findUserById = async (id) => {
   let userList = await getuserList();
   let identifiedUser = userList.find((user) => user.uid === id);
-  console.log(identifiedUser);
   return identifiedUser;
 };
 
 exports.addUser = async (user) => {
   let userList = await getuserList();
-  if (!user.isAdmin) user.isAdmin = false;
-  let uid = Number(userList.length) + 1;
-  console.log(user);
+  user.isAdmin = false;
+  const lastUser = userList[userList.length - 1];
+  let uid = Number(lastUser ? lastUser.uid : 0) + 1;
   const newUser = { uid, ...user };
   userList.push(newUser);
 
@@ -51,7 +51,6 @@ exports.editUser = async (uid, editedUser) => {
     return null;
   }
   userList[user_index] = { ...userList[user_index], ...editedUser };
-  console.log(userList);
 
   try {
     await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
@@ -62,13 +61,13 @@ exports.editUser = async (uid, editedUser) => {
 };
 
 exports.removeUser = async (uid) => {
+  if (uid == 1) return { message: "usuario protegido" };
   let userList = await getuserList();
   const user_index = userList.findIndex((user) => user.uid === Number(uid));
   if (user_index === -1) {
     return null;
   }
   let removedUser = userList[user_index];
-  console.log(userList[user_index]);
   userList.splice(user_index, 1)[0];
 
   try {
@@ -79,6 +78,8 @@ exports.removeUser = async (uid) => {
   }
 };
 
+//função que gera o token a partir das credenciais fornecidas pelo usuario
+//se elas existirem, um token será gerado
 exports.login = async (loginBody) => {
   const userList = await getuserList();
   const username = loginBody.username;
@@ -99,11 +100,30 @@ exports.login = async (loginBody) => {
   }
 };
 
+//destrói o arquivo que contém o token, invalidando o acesso à qualquer página
+// que requeira o token para poder acessar
 exports.logout = async () => {
   try {
     await fs.unlink(sessionPath);
     return { message: "deslogado com sucesso" };
   } catch (error) {
     return { message: error };
+  }
+};
+
+//função onde um admin pode criar uma nova conta de admin
+exports.createAdmin = async (user) => {
+  let userList = await getuserList();
+  user.isAdmin = true;
+  const lastUser = userList[userList.length - 1];
+  let uid = Number(lastUser ? lastUser.uid : 0) + 1;
+  const newUser = { uid, ...user };
+  userList.push(newUser);
+
+  try {
+    await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
+    // return newUser;
+  } catch (err) {
+    console.error(err);
   }
 };

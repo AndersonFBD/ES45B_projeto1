@@ -22,10 +22,11 @@ const readArtistFile = async () => {
   }
 };
 
-exports.getAllArtists = async (req, res) => {
+exports.getAllArtists = async (page, limit) => {
   await initialize();
   const allArtists = await readArtistFile();
-  return allArtists;
+  let resultPage = allArtists.slice((page - 1) * limit, limit * page);
+  return resultPage;
 };
 
 exports.getArtist = async (id) => {
@@ -39,7 +40,8 @@ exports.getArtist = async (id) => {
 exports.addNewArtist = async (artist) => {
   await initialize();
   const allArtists = await readArtistFile();
-  let id = Number(allArtists.length) + 1;
+  const lastEntry = allArtists[allArtists.length - 1];
+  let id = Number(lastEntry ? lastEntry.id : 0) + 1;
   console.log(artist);
   const newEntry = { id, ...artist };
   allArtists.push(newEntry);

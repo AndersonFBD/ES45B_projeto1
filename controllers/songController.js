@@ -1,8 +1,12 @@
 const songServices = require("../services/songServices");
 
 exports.getAllSongs = async (req, res) => {
-  const library = await songServices.listAllSongs();
-  res.status(200).json(library);
+  let page = Number(req.query.page[0]);
+  let limit = Number(req.query.limit[0]);
+  if (limit !== 5 && limit !== 10 && limit !== 30)
+    return res.status(400).json({ error: "o limite deve ser 5, 10 ou 30" });
+  const library = await songServices.listAllSongs(page, limit);
+  return res.status(200).json(library);
 };
 
 exports.findById = async (req, res) => {
@@ -14,11 +18,20 @@ exports.findById = async (req, res) => {
 
   res.status(200).json(song);
 };
+exports.findByTitle = async (req, res) => {
+  const results = await songServices.findByTitle(req.body.title);
+  res.status(200).json(results);
+};
 
 exports.addSong = async (req, res) => {
-  await songServices.addNewSong(req.body);
-  console.log(req.body);
-  res.status(201).json({ "música adicionada": req.body });
+  let addedSong = await songServices.addNewSong(req.body);
+  if (addedSong) {
+    return res.status(201).json({ "música adicionada": addedSong });
+  } else {
+    return res
+      .status(400)
+      .json({ erro: "Artista não cadastrado em nossa base" });
+  }
 };
 
 exports.updateSong = async (req, res) => {

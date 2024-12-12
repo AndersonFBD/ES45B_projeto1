@@ -11,6 +11,7 @@ exports.verifyCredentials = async (req, res, next) => {
     let jwtObject = JSON.parse(tokenfile);
     try {
       const decoded = jwt.verify(jwtObject.Token, process.env.SECRET);
+      req.uid = decoded.uid;
       req.user = decoded.username;
       req.admin = decoded.isAdmin;
 
