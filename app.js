@@ -20,7 +20,7 @@ app.use("/songs", songRoutes);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.get("/install", initializeUsers, (req, res) => {
-  res.status(200).end("Admin instalado com sucesso!");
+  return res.status(200).json("Admin instalado com sucesso!");
 });
 
 app.listen(port, () => {
