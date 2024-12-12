@@ -1,5 +1,7 @@
+require("dotenv").config();
 const express = require("express");
-const bodyParser = require("body-parser");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output.json");
 const { initializeUsers } = require("./middlewares/installAdmin");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,9 +12,12 @@ const artistRoutes = require("./routes/artistRoutes");
 const songRoutes = require("./routes/songRoutes");
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/users", userRoutes);
 app.use("/artists", artistRoutes);
 app.use("/songs", songRoutes);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.get("/install", initializeUsers, (req, res) => {
   res.status(200).end("Admin instalado com sucesso!");

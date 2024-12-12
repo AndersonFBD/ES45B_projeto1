@@ -1,0 +1,1005 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "ES45B API PROJETO 1",
+    "description": "Projeto da disciplina de Programação Web Back-end"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "login/logout",
+      "description": "rotas usadas para a criar e encerrar as sessões do usuário"
+    },
+    {
+      "name": "usuários",
+      "description": "rotas que envolvem manuseio de dados de usuários"
+    },
+    {
+      "name": "artistas",
+      "description": "rotas que envolvem manuseio de dados de artistas"
+    },
+    {
+      "name": "musicas",
+      "description": "rotas que envolvem manuseio dos dados das musicas"
+    }
+  ],
+  "paths": {
+    "/install": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/all": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/users/find/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/myProfile": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/users/edit/{uid}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "/users/editProfile/": {
+      "put": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "isAdmin": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{uid}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "any"
+                  },
+                  "password": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/newAdmin": {
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/artists/": {
+      "get": {
+        "tags": [
+          "artistas"
+        ],
+        "summary": "realiza a listagem dos artistas por paginas",
+        "description": "A rota retorna todos os artistas conforme definido página e limite nos parametros",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "numero da pagina",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "limite de itens por pagina",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "artistas dessa página:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/artist"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "limite invalido, precisa ser 5 , 10 ou 30",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "limite invalido, precisa ser 5 , 10 ou 30"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "artistas"
+        ],
+        "summary": "adição de artistas",
+        "description": "rota usada para cadastrar artistas na base de dados",
+        "responses": {
+          "201": {
+            "description": "artista adicionado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/artist"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "artista não adicionado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "houve um erro com o artista enviado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sem permisão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "faça o login para realizar esta ação"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/artist"
+              },
+              "examples": {
+                "artist": {
+                  "value": {
+                    "name": "Michael Jackson",
+                    "genre": "Pop"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/artists/{id}": {
+      "get": {
+        "tags": [
+          "artistas"
+        ],
+        "summary": "realiza a busca do artista pela id",
+        "description": "A rota retorna o artista conforme definido a id na URL",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "id do artista"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "artista encontrado:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/artist"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "artista não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "nenhum artista encontrado com a id especificada"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "artistas"
+        ],
+        "summary": "edição de artistas",
+        "description": "rota usada para atualizar artistas cadastrados na base de dados",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "id do artista"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "artista não adicionado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "houve um erro com o artista enviado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sem permisão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "faça o login para realizar esta ação"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "artista não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string",
+                      "example": "artista não encontrado, tente outra id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/artist"
+              },
+              "examples": {
+                "artist": {
+                  "value": {
+                    "name": "Elvis Presley",
+                    "genre": "Rock"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "artistas"
+        ],
+        "summary": "apagar um artista",
+        "description": "rota usada para deletar artistas na base de dados",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "artista deletado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/artist"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Sem permisão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "faça o login para realizar esta ação"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "artista não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "nenhum artista encontrado com a id especificada"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/songs/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/songs/idSearch/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/songs/titleSearch": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/songs/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "string"
+              },
+              "description": {
+                "type": "string",
+                "example": "nome de usuário"
+              },
+              "minLength": {
+                "type": "number",
+                "example": 4
+              },
+              "maxLength": {
+                "type": "number",
+                "example": 20
+              }
+            }
+          },
+          "password": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "string"
+              },
+              "description": {
+                "type": "string",
+                "example": "senha de acesso do usuário"
+              },
+              "minLength": {
+                "type": "number",
+                "example": 6
+              },
+              "maxLength": {
+                "type": "number",
+                "example": 18
+              }
+            }
+          },
+          "isAdmin": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "boolean"
+              },
+              "description": {
+                "type": "string",
+                "example": "flag de usuário administrador"
+              }
+            }
+          }
+        }
+      },
+      "artist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "integer"
+              },
+              "description": {
+                "type": "string",
+                "example": "numero de identificação de artista"
+              }
+            }
+          },
+          "name": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "string"
+              },
+              "description": {
+                "type": "string",
+                "example": "nome do artista/ grupo musical"
+              },
+              "minLength": {
+                "type": "number",
+                "example": 2
+              },
+              "maxLength": {
+                "type": "number",
+                "example": 50
+              }
+            }
+          },
+          "genre": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "string"
+              },
+              "description": {
+                "type": "string",
+                "example": "genero musical predominante do artista"
+              },
+              "minLength": {
+                "type": "number",
+                "example": 3
+              },
+              "maxLength": {
+                "type": "number",
+                "example": 30
+              }
+            }
+          }
+        }
+      },
+      "song": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "integer"
+              },
+              "description": {
+                "type": "string",
+                "example": "numero de identificação de musica"
+              }
+            }
+          },
+          "title": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "string"
+              },
+              "description": {
+                "type": "string",
+                "example": "titulo da música"
+              },
+              "minLength": {
+                "type": "number",
+                "example": 3
+              }
+            }
+          },
+          "album": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "string"
+              },
+              "description": {
+                "type": "string",
+                "example": "album no qual a música pertence"
+              },
+              "minLength": {
+                "type": "number",
+                "example": 3
+              }
+            }
+          },
+          "artist": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "string"
+              },
+              "description": {
+                "type": "string",
+                "example": "artista da música"
+              },
+              "minLength": {
+                "type": "number",
+                "example": 2
+              },
+              "maxLength": {
+                "type": "number",
+                "example": 50
+              }
+            }
+          },
+          "year": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "integer"
+              },
+              "description": {
+                "type": "string",
+                "example": "ano de lançamento da música"
+              },
+              "minimum": {
+                "type": "number",
+                "example": 1900
+              },
+              "maximum": {
+                "type": "number",
+                "example": 2024
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "basepath": "/"
+}

@@ -22,8 +22,8 @@ const validateSong = [
   body("artist")
     .notEmpty()
     .withMessage("o artista é obrigatório")
-    .isLength({ min: 3, max: 30 })
-    .withMessage("o artista deve conter entre 3 e 30 caracteres"),
+    .isLength({ min: 2, max: 50 })
+    .withMessage("o artista deve conter entre 2 e 50 caracteres"),
   body("year")
     .notEmpty()
     .withMessage("campo ano obrigatório")
