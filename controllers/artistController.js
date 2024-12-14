@@ -122,8 +122,8 @@ exports.addArtist = async (req, res) => {
         examples:{
           "artist": {
             "value": {
-              "name": "Michael Jackson",
-              "genre": "Pop",
+              "name": "name of artist",
+              "genre": "genre of artist",
             }
           }
         }
