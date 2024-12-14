@@ -84,7 +84,7 @@ exports.removeArtist = async (id) => {
     return null;
   }
   let removedEntry = artistCollection[artist_index];
-  artistCollection.splice(artist_index, 1)[0];
+  artistCollection.splice(artist_index, 1);
 
   try {
     await fs.writeFile(filepath, JSON.stringify(artistCollection), "utf-8");

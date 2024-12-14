@@ -68,7 +68,7 @@ exports.removeUser = async (uid) => {
     return null;
   }
   let removedUser = userList[user_index];
-  userList.splice(user_index, 1)[0];
+  userList.splice(user_index, 1);
 
   try {
     await fs.writeFile(filepath, JSON.stringify(userList), "utf-8");
