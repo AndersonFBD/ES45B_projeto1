@@ -197,7 +197,7 @@ exports.findByAlbum = async (req, res) => {
         examples:{
           "album": {
             "value": {
-              "artist": "any",
+              "album": "any",
             }
           }
         }

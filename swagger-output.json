@@ -1371,7 +1371,7 @@
         }
       }
     },
-    "/songs/titleSearch": {
+    "/songs/search/byTitle": {
       "post": {
         "tags": [
           "musicas"
@@ -1404,6 +1404,88 @@
                 "title": {
                   "value": {
                     "title": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/songs/search/byArtist": {
+      "post": {
+        "tags": [
+          "musicas"
+        ],
+        "summary": "realiza a busca da musica pelo nome do artista",
+        "description": "A rota retorna as musicas conforme o nome do artista enviado",
+        "responses": {
+          "200": {
+            "description": "musicas encontradas:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/song"
+              },
+              "examples": {
+                "artist": {
+                  "value": {
+                    "artist": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/songs/search/byAlbum": {
+      "post": {
+        "tags": [
+          "musicas"
+        ],
+        "summary": "realiza a busca da musica pelo nome do album",
+        "description": "A rota retorna as musicas conforme o nome do album enviado",
+        "responses": {
+          "200": {
+            "description": "musicas encontradas:",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/song"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/song"
+              },
+              "examples": {
+                "album": {
+                  "value": {
+                    "artist": "any"
                   }
                 }
               }
