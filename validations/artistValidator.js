@@ -21,7 +21,7 @@ const validateArtist = [
     .withMessage("o genero deve conter entre 3 e 30 caracteres"),
   (req, res, next) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty) {
+    if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     next();
