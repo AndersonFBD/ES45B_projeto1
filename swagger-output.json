@@ -1485,7 +1485,7 @@
               "examples": {
                 "album": {
                   "value": {
-                    "artist": "any"
+                    "album": "any"
                   }
                 }
               }
