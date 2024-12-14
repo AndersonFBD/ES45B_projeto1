@@ -67,6 +67,42 @@ exports.findByTitle = async (title) => {
   }
 };
 
+exports.findByArtist = async (artist) => {
+  await initialize();
+
+  if (String(artist).trim() === "") {
+    return "nenhum termo buscado";
+  } else {
+    let allSongs = await readSongFile();
+    let results = allSongs.filter((song) =>
+      String(song.artist).toLowerCase().includes(String(artist).toLowerCase())
+    );
+
+    if (results.length > 0) return results;
+    else {
+      return "no results";
+    }
+  }
+};
+
+exports.findByAlbum = async (album) => {
+  await initialize();
+
+  if (String(album).trim() === "") {
+    return "nenhum termo buscado";
+  } else {
+    let allSongs = await readSongFile();
+    let results = allSongs.filter((song) =>
+      String(song.album).toLowerCase().includes(String(album).toLowerCase())
+    );
+
+    if (results.length > 0) return results;
+    else {
+      return "no results";
+    }
+  }
+};
+
 exports.addNewSong = async (song) => {
   await initialize();
   const songs = await readSongFile();

@@ -140,6 +140,86 @@ exports.findByTitle = async (req, res) => {
   */
 };
 
+exports.findByArtist = async (req, res) => {
+  const results = await songServices.findByArtist(req.body.artist);
+  res.status(200).json(results);
+  /*
+  #swagger.tags = ['musicas']
+  #swagger.summary = 'realiza a busca da musica pelo nome do artista'
+  #swagger.description = 'A rota retorna as musicas conforme o nome do artista enviado'
+    #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/song"
+        },
+        examples:{
+          "artist": {
+            "value": {
+              "artist": "any",
+            }
+          }
+        }
+      }
+    }
+  }
+    #swagger.responses[200] = {
+    description: 'musicas encontradas:',
+    content: {
+      "application/json":{
+        schema: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/song'
+          }
+        }
+      }
+    }
+  }
+  */
+};
+
+exports.findByAlbum = async (req, res) => {
+  const results = await songServices.findByAlbum(req.body.album);
+  res.status(200).json(results);
+  /*
+  #swagger.tags = ['musicas']
+  #swagger.summary = 'realiza a busca da musica pelo nome do album'
+  #swagger.description = 'A rota retorna as musicas conforme o nome do album enviado'
+    #swagger.requestBody = {
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          $ref: "#/components/schemas/song"
+        },
+        examples:{
+          "album": {
+            "value": {
+              "album": "any",
+            }
+          }
+        }
+      }
+    }
+  }
+    #swagger.responses[200] = {
+    description: 'musicas encontradas:',
+    content: {
+      "application/json":{
+        schema: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/song'
+          }
+        }
+      }
+    }
+  }
+  */
+};
+
 exports.addSong = async (req, res) => {
   let addedSong = await songServices.addNewSong(req.body);
   if (addedSong) {

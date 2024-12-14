@@ -2,6 +2,10 @@
   "name": "es45b_projeto_1",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AndersonFBD/ES45B_projeto1"
+  },
   "scripts": {
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
