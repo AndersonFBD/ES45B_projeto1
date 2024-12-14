@@ -9,7 +9,9 @@ const router = express.Router();
 
 router.get("/", songController.getAllSongs);
 router.get("/idSearch/:id", songController.findById);
-router.post("/titleSearch", songController.findByTitle);
+router.post("/search/byTitle", songController.findByTitle);
+router.post("/search/byArtist", songController.findByArtist);
+router.post("/search/byAlbum", songController.findByAlbum);
 router.post("/", verifyCredentials, validateSong, songController.addSong);
 router.put(
   "/:id",
